@@ -1,12 +1,17 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'letra-apellido'
+  name: 'letraApellido'
 })
 export class LetraApellidoPipe implements PipeTransform {
 
-  transform(apellido:String): String {
-    return apellido.charAt(0).toUpperCase();
+  transform(apellidos?:string): string | undefined {
+    if(apellidos!=""){
+      return apellidos?.charAt(0).toUpperCase();
+    }else{
+      return ""
+    }
+    
   }
 
 }

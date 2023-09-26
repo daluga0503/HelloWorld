@@ -10,27 +10,27 @@ export class HomePage {
   usuarios = [
     {
       nombre:"Juan Antonio",
-      apellido:"García Gómez",
+      apellidos:"García Gómez",
       edad: 46
     },
     {
       nombre:"Daniel",
-      apellido:"Luque Gallardo",
+      apellidos:"Luque Gallardo",
       edad: 19
     },
     {
       nombre:"Antonio",
-      apellido:"García Guerrero",
+      apellidos:"García Guerrero",
       edad: 19
     },
     {
       nombre:"Julio",
-      apellido:"Granados Durán",
+      apellidos:"Granados Durán",
       edad: 19
     },
     {
       nombre:"Jorge",
-      apellido:"Sousa Guzmán",
+      apellidos:"Sousa Guzmán",
       edad: 21
     }
   ]
