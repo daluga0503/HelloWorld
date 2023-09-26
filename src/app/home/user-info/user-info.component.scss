@@ -1,0 +1,24 @@
+ion-card {
+    --background: #000;
+    --color: #a3a3a3;
+  }
+  
+  .title {
+    --color: #b569de;
+    font-size: 1.4rem;
+  }
+  
+  ion-card-subtitle {
+    --color: #ffffff;
+  }
+  
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-items: center;
+    align-items: center;
+  }
+  
+  .card {
+    width: 50%;
+  }

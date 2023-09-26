@@ -5,6 +5,9 @@ import { FormsModule } from '@angular/forms';
 import { HomePage } from './home.page';
 
 import { HomePageRoutingModule } from './home-routing.module';
+import { UserInfoComponent } from './user-info/user-info.component';
+import { LetraApellidoPipe } from '../pipes/letra-apellido.pipe';
+
 
 
 @NgModule({
@@ -12,8 +15,9 @@ import { HomePageRoutingModule } from './home-routing.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    HomePageRoutingModule
+    HomePageRoutingModule,
   ],
-  declarations: [HomePage]
+  declarations: [HomePage, UserInfoComponent, LetraApellidoPipe]
 })
 export class HomePageModule {}
+
