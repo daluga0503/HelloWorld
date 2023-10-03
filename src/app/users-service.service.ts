@@ -53,6 +53,23 @@ export class UsersServiceService {
     });
   }
 
+  public deleteUser(user:User):Observable<User>{
+    return new Observable (observer =>{
+      setTimeout(() => {
+        var _users = [... this._users.value];
+        var index = _users.findIndex(usu => usu.id == user.id);
+        if(index < 0){
+          observer.error(UserNotFound);
+        }else{
+          _users = [..._users.splice(0,index), ..._users.splice(index+1)];
+          this._users.next(_users);
+          observer.next(user);
+        }
+        observer.complete;
+      }, 500);
+    });
+  }
+
 
 
 

@@ -11,6 +11,9 @@
         <ion-icon *ngIf="usuario?.fav" slot="icon-only" color="danger" name="heart" aria-hidden="true"></ion-icon>
         <ion-icon *ngIf="!usuario?.fav" slot="icon-only" color="medium" name="heart-outline" aria-hidden="true"></ion-icon>
       </ion-button>
+      <ion-button class="close-button" fill="clear" (click)="onDeleteClick($event)">
+        <ion-icon slot="icon-only"  color="primary" name="trash" aria-hidden="true"></ion-icon>
+      </ion-button>
     </ion-item>
     <ion-card-content>
       <ion-card-subtitle>Nombre</ion-card-subtitle>

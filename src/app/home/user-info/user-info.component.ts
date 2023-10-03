@@ -13,6 +13,7 @@ export class UserInfoComponent  implements OnInit {
   @Input() usuario?: User;
 
   @Output() onFavClicked:EventEmitter<UserInfoFavClicked> = new EventEmitter<UserInfoFavClicked>();
+  @Output() onDeleteClicked: EventEmitter<void>= new EventEmitter<void>();
   
 
   constructor() {}
@@ -31,6 +32,11 @@ export class UserInfoComponent  implements OnInit {
                                       //Si this.usuario?.fav es nulo, devuelve true;
                                       // si no es nulo, devuelve false
     });
+    event.stopPropagation();
+  }
+  
+  onDeleteClick(event:any){
+    this.onDeleteClicked.emit()
     event.stopPropagation();
   }
 
