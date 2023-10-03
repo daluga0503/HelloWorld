@@ -8,7 +8,8 @@
 
   <ion-content>
     <div class="cards">
-      <app-user-info *ngFor="let user of (user$ | async)" [usuario]="user"
+      <app-user-info *ngFor="let user of users.users$ | async " [usuario]="user"
       (onFavClicked) = "onFavClicked(user, $event)"></app-user-info>
     </div>
+    <ion-loading [isOpen]="loading" class="custom-loading"  message="Loading..." ></ion-loading>
   </ion-content>
