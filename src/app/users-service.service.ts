@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from './home/user';
+import { User } from './interfaces/user';
 
 export class UserNotFound extends Error{}
 
@@ -8,7 +8,6 @@ export class UserNotFound extends Error{}
   providedIn: 'root'
 })
 export class UsersServiceService {
-
   // variable  privada de escritura que se comporta de tipo genérico que se inicializa en un array vacío
   private _users:BehaviorSubject<User[]> = new BehaviorSubject<User[]>([]);
   // variable pública solo de lectura para suscribirte que se comporta como un observable
@@ -69,8 +68,4 @@ export class UsersServiceService {
       }, 500);
     });
   }
-
-
-
-
 }

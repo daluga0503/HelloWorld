@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { User } from './user';
+import { BehaviorSubject, Observable, zip } from 'rxjs';
+import { User } from '../interfaces/user';
 import { UserInfoFavClicked } from './user-info-fav-clicked';
 import { ToastController, ToastOptions } from '@ionic/angular';
 import { UsersServiceService } from '../users-service.service';
+import { FavUserServiceService } from '../fav-user-service.service';
+
+
 
 @Component({
   selector: 'app-home',
@@ -13,20 +16,19 @@ import { UsersServiceService } from '../users-service.service';
 })
 export class HomePage implements OnInit {
   public loading: boolean = false;
-
   constructor(
     private route: Router, 
     private toast: ToastController, 
-    public users: UsersServiceService) {
+    public users: UsersServiceService,
+    public favs: FavUserServiceService,) {
 
   }
-
   ngOnInit(): void{
-    this.loading=true;
-    this.users.getAll().subscribe(user =>
-      this.loading=false
-    );
-}// cierre llave ngOninit
+    this.loading = true;
+    zip(this.users.getAll(), this.favs.getAll()).subscribe( results =>{
+      this.loading=false;
+    })
+}
   public welcome(){
     this.route.navigate(['/welcome']);
   }
@@ -34,10 +36,9 @@ export class HomePage implements OnInit {
   
 
   public onFavClicked(user:User, event:UserInfoFavClicked){
-    var _user:User = {...user};
-    _user.fav = event.fav??false; //en el caso de que fav sea undefined devolvemos falso.
-    this.users.updateUsers(_user).subscribe(
-        {next: user=>{
+    var obs = (event?.fav)?this.favs.addFav(user.id):this.favs.deleteFav(user.id);
+    obs.subscribe({
+      next:_=>{ // el _ siginifica cualquier valor
         //Notificamos con un Toast que se ha pulsado
         const options:ToastOptions = {
           message:`User ${user.nombre}${event.fav?' added':' removed'} ${event.fav?'to':'from'} favourites`, //mensaje del toast
@@ -49,8 +50,8 @@ export class HomePage implements OnInit {
         //creamos el toast
         this.toast.create(options).then(toast=>toast.present());
         },
-        error: err=>{
-          console.log(err);
+        error:err =>{
+          console.log(err)
         }
       });
   }
@@ -74,5 +75,16 @@ export class HomePage implements OnInit {
           console.log(err);
         }
       });
+  }
+  public async onCardClicked(){
+    const options:ToastOptions = {
+      message:"User clicked the card",
+      duration:1000,
+      position:'bottom',
+      color:'tertiary',
+      cssClass:'card-ion-toast'
+    };
+    const toast = await this.toast.create(options);
+    toast.present();
   }
 }

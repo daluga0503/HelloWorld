@@ -7,6 +7,8 @@ import { HomePage } from './home.page';
 import { HomePageRoutingModule } from './home-routing.module';
 import { UserInfoComponent } from './user-info/user-info.component';
 import { LetraApellidoPipe } from '../pipes/letra-apellido.pipe';
+import { HighlightDirective } from './highlight.directive';
+import { FavsPipePipe } from '../pipes/favs.pipe';
 
 
 
@@ -17,7 +19,7 @@ import { LetraApellidoPipe } from '../pipes/letra-apellido.pipe';
     IonicModule,
     HomePageRoutingModule,
   ],
-  declarations: [HomePage, UserInfoComponent, LetraApellidoPipe]
+  declarations: [HomePage, UserInfoComponent, LetraApellidoPipe, FavsPipePipe , HighlightDirective]
 })
 export class HomePageModule {}
 

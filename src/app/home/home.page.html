@@ -1,15 +1,31 @@
-<ion-header [translucent]="true">
+<ion-header >
   <ion-toolbar>
     <ion-title>
-      Cards
+      Blank
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-  <ion-content>
-    <div class="cards">
-      <app-user-info *ngFor="let user of users.users$ | async " [usuario]="user"
-      (onFavClicked) = "onFavClicked(user, $event)" (onDeleteClicked) = "onDeleteClicked(user)"></app-user-info>
-    </div>
-    <ion-loading [isOpen]="loading" class="custom-loading"  message="Loading..." ></ion-loading>
-  </ion-content>
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Blank</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-button (click)="welcome()">{{"Ir al wellcome"}}</ion-button>
+  <div class="users-panel">
+    <app-user-info 
+      appHighlight
+      *ngFor="let user of (users.users$ | async) | favsPipe:(favs.favs$ | async)" 
+      [usuario]="user"  
+      (onCardClicked)="onCardClicked()" 
+      (onFavClicked)="onFavClicked(user, $event)"
+      (onDeleteClicked)="onDeleteClicked(user)"
+      >
+  </app-user-info>
+  </div>
+  <ion-loading [isOpen]="loading" class="custom-loading"  message="Loading..." ></ion-loading>
+  
+  
+</ion-content>
