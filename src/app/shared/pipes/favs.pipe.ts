@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { User } from '../interfaces/user';
-import { Fav } from '../interfaces/fav';
+import { Fav } from 'src/app/core/interfaces/fav';
+import { User } from 'src/app/core/interfaces/user';
+
 
 @Pipe({
   name: 'favsPipe'

@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'welcome',
-    loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
+    loadChildren: () => import('./shared/components/welcome/welcome.module').then( m => m.WelcomePageModule)
   },
 ];
 

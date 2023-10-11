@@ -67,5 +67,11 @@ ion-loading.custom-loading {
   @keyframes shake {
     0%   {transform: rotate(2deg);}
     100%  {transform: rotate(-2deg);}
-  
+  }
+
+  .modal-full-rigth-side{
+    --height:100%;
+    --max-width:350px;
+    --display:flex;
+    justify-content: flex-end ;
   }

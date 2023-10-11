@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, zip } from 'rxjs';
-import { User } from '../interfaces/user';
-import { UserInfoFavClicked } from './user-info-fav-clicked';
-import { ToastController, ToastOptions } from '@ionic/angular';
-import { UsersServiceService } from '../users-service.service';
-import { FavUserServiceService } from '../fav-user-service.service';
+import { User } from '../core/interfaces/user';
+import { UserInfoFavClicked } from '../core/interfaces/user-info-fav-clicked';
+import { ModalController, ToastController, ToastOptions } from '@ionic/angular';
+import { UsersServiceService } from '../core/services/users-service.service';
+import { FavUserServiceService } from '../core/services/fav-user-service.service';
+import { UserFormComponent } from '../shared/components/userform/userform.component';
 
 
 
@@ -20,7 +21,8 @@ export class HomePage implements OnInit {
     private route: Router, 
     private toast: ToastController, 
     public users: UsersServiceService,
-    public favs: FavUserServiceService,) {
+    public favs: FavUserServiceService,
+    private modal: ModalController) {
 
   }
   ngOnInit(): void{
@@ -86,5 +88,27 @@ export class HomePage implements OnInit {
     };
     const toast = await this.toast.create(options);
     toast.present();
+  }
+
+
+
+  async presentForm(onDismis:(result:any) => void){
+    const modal = await this.modal.create({
+      component: UserFormComponent,
+      cssClass: "modal-full-rigth-side"
+    });
+    modal.present();
+    modal.onDidDismiss().then(result =>{
+      if(result && result.data){
+        onDismis(result.data);
+      }
+    });
+  }
+
+  onNewUser(newUser: any){
+    var onDismis = (data:any) =>{
+      console.log(data);
+    }
+    this.presentForm(onDismis);
   }
 }
