@@ -22,6 +22,7 @@
 </ion-header>
 <ion-content class="ion-padding">
   <form [formGroup]="form" (ngSubmit)="onSubmit()" (keyup.enter)="onSubmit()">
+    <app-picture-selectable formControlName="picture"></app-picture-selectable>
     <ion-item>
       <ion-input label="Nombre" labelPlacement="start" formControlName="nombre" type="text"></ion-input>
     </ion-item>

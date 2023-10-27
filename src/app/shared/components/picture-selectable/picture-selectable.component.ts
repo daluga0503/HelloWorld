@@ -18,7 +18,7 @@ export const PICTURE_SELECTABLE_VALUE_ACCESSOR: any = {
 export class PictureSelectableComponent  implements OnInit, ControlValueAccessor, OnDestroy {
 
   private _picture = new BehaviorSubject("");
-  private picture$ = this._picture.asObservable();
+  public picture$ = this._picture.asObservable();
   isDisabled: boolean = false;
   hasValue: boolean = false;
   
