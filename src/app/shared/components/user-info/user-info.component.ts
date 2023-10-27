@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { UserInfoFavClicked } from '../../../core/interfaces/user-info-fav-clicked';
 import { User } from 'src/app/core/interfaces/user';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -14,9 +15,12 @@ export class UserInfoComponent  implements OnInit {
 
   @Output() onFavClicked:EventEmitter<UserInfoFavClicked> = new EventEmitter<UserInfoFavClicked>();
   @Output() onDeleteClicked: EventEmitter<void>= new EventEmitter<void>();
+  @Output() onCardClicked: EventEmitter<void> = new EventEmitter<void>();
   
 
-  constructor() {}
+  constructor(
+    private router:Router
+  ) {}
   /*
   onFavClick(event: MouseEvent): void {
     event.stopPropagation(); // Evita que el evento se propague a elementos padre.
@@ -38,6 +42,10 @@ export class UserInfoComponent  implements OnInit {
   onDeleteClick(event:any){
     this.onDeleteClicked.emit()
     event.stopPropagation();
+  }
+
+  onCardClick(){
+    this.onCardClicked.emit();
   }
 
 

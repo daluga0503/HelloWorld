@@ -13,20 +13,30 @@
     </ion-toolbar>
   </ion-header>
 
-  <ion-button (click)="onNewUser($event)">{{"Nuevo Usuario"}}
+  <ion-button (click)="onNewUser()">{{"Nuevo Usuario"}}
     <ion-icon slot="icon-only"  color="primary"  name="add-outline" aria-hidden="true"></ion-icon>
   </ion-button>
-  <div class="users-panel">
-    <app-user-info 
-      appHighlight
-      *ngFor="let user of (users.users$ | async) | favsPipe:(favs.favs$ | async)" 
-      [usuario]="user"  
-      (onCardClicked)="onCardClicked()" 
-      (onFavClicked)="onFavClicked(user, $event)"
-      (onDeleteClicked)="onDeleteClicked(user)"
-      >
-  </app-user-info>
+  <ion-button (click)="showFavs">{{"Lista de favoritos"}}
+    <ion-icon slot="icon-only"  color="primary"  name="add-outline" aria-hidden="true"></ion-icon>
+  </ion-button>
+
+  <div class="main">
+    <section>
+      <main class="cards-section" *ngIf = "!loading">
+        <app-user-info 
+          appHighlight
+          *ngFor="let user of ((users.users$ | async) | favsPipe:(favs.favs$ | async));let i = index" 
+          [usuario]="user"  
+          (onCardClicked)="onCardClicked(user)" 
+          (onFavClicked)="onFavClicked(user.id, $event)"
+          (onDeleteClicked)="onDeleteClicked(user)"
+          >
+        </app-user-info>
+      </main>
+      <app-fav-info *ngFor="let fav of favs.favs$ | async" [id]="fav.userId" (onFavBorrado)="onFavClicked(fav.userId, $event)"></app-fav-info>
+    </section>
   </div>
+
   <ion-loading [isOpen]="loading" class="custom-loading"  message="Loading..." ></ion-loading>
   
   

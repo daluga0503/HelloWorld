@@ -14,7 +14,7 @@ const routes: Routes = [
   {
     path: 'welcome',
     loadChildren: () => import('./shared/components/welcome/welcome.module').then( m => m.WelcomePageModule)
-  },
+  }
 ];
 
 @NgModule({

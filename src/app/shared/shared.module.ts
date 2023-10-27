@@ -6,17 +6,22 @@ import { LetraApellidoPipe } from './pipes/letra-apellido.pipe';
 import { UserInfoComponent } from './components/user-info/user-info.component';
 import { UserFormComponent } from './components/userform/userform.component';
 import { HighlightDirective } from './directives/highlight.directive';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FavInfoComponent } from './components/fav-info/fav-info.component';
+import { UserDetailComponent } from './components/user-detail/user-detail.component';
+
 
 
 
 @NgModule({
-  declarations: [UserInfoComponent, LetraApellidoPipe, UserFormComponent ],
+  declarations: [UserInfoComponent,  LetraApellidoPipe, UserFormComponent, FavInfoComponent, UserDetailComponent ],
   imports: [
     CommonModule,
     IonicModule,
-    FormsModule 
+    FormsModule,
+    ReactiveFormsModule
   ],
-  exports: [UserInfoComponent, UserFormComponent]
+  exports: [UserInfoComponent, UserFormComponent, FavInfoComponent, UserDetailComponent]
 })
 export class SharedModule { }
+

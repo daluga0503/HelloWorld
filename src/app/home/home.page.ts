@@ -7,6 +7,8 @@ import { ModalController, ToastController, ToastOptions } from '@ionic/angular';
 import { UsersServiceService } from '../core/services/users-service.service';
 import { FavUserServiceService } from '../core/services/fav-user-service.service';
 import { UserFormComponent } from '../shared/components/userform/userform.component';
+import { UserDetailComponent } from '../shared/components/user-detail/user-detail.component';
+
 
 
 
@@ -17,6 +19,7 @@ import { UserFormComponent } from '../shared/components/userform/userform.compon
 })
 export class HomePage implements OnInit {
   public loading: boolean = false;
+  public favsVer = false;
   constructor(
     private route: Router, 
     private toast: ToastController, 
@@ -35,15 +38,18 @@ export class HomePage implements OnInit {
     this.route.navigate(['/welcome']);
   }
 
-  
 
-  public onFavClicked(user:User, event:UserInfoFavClicked){
-    var obs = (event?.fav)?this.favs.addFav(user.id):this.favs.deleteFav(user.id);
+  public favInfo(){
+    this.route.navigate(['/favinfo']);
+  }
+
+  public onFavClicked(id: number, event:UserInfoFavClicked){
+    var obs = (event?.fav)?this.favs.addFav(id):this.favs.deleteFav(id);
     obs.subscribe({
       next:_=>{ // el _ siginifica cualquier valor
         //Notificamos con un Toast que se ha pulsado
         const options:ToastOptions = {
-          message:`User ${user.nombre}${event.fav?' added':' removed'} ${event.fav?'to':'from'} favourites`, //mensaje del toast
+          message:`User ${event.fav?' added':' removed'} ${event.fav?'to':'from'} favourites`, //mensaje del toast
           duration:1000, // 1 segundo
           position:'bottom', // el toast se situa en la parte inferior
           color:'danger', // color del toast
@@ -78,37 +84,95 @@ export class HomePage implements OnInit {
         }
       });
   }
-  public async onCardClicked(){
-    const options:ToastOptions = {
-      message:"User clicked the card",
-      duration:1000,
-      position:'bottom',
-      color:'tertiary',
-      cssClass:'card-ion-toast'
-    };
-    const toast = await this.toast.create(options);
-    toast.present();
+
+  public async onCardClicked(user:User){
+    
+    var onDismiss = (info:any)=>{
+      console.log(info);
+      switch(info.role){
+        case 'ok':{
+          this.users.updateUsers(info.data).subscribe(async user=>{
+              const options:ToastOptions = {
+              message:"User modified",
+              duration:1000,
+              position:'bottom',
+              color:'tertiary',
+              cssClass:'card-ion-toast'
+            };
+            const toast = await this.toast.create(options);
+            toast.present();
+          })
+        }
+        break;
+        case 'delete':{
+          this.users.deleteUser(info.data).subscribe(async user=>{
+            const options:ToastOptions = {
+            message:"User deleted",
+            duration:1000,
+            position:'bottom',
+            color:'tertiary',
+            cssClass:'card-ion-toast'
+          };
+          const toast = await this.toast.create(options);
+          toast.present();
+        })
+        }
+        break;
+        default:{
+          console.error("No debería entrar");
+        }
+      }
+    }
+    this.presentForm(user, onDismiss);
   }
 
 
 
-  async presentForm(onDismis:(result:any) => void){
+  async presentForm(data:User|null, onDismiss:(result:any)=>void){
+    
     const modal = await this.modal.create({
-      component: UserFormComponent,
-      cssClass: "modal-full-rigth-side"
+      component:UserDetailComponent,
+      componentProps:{
+        user:data
+      },
+      cssClass:"modal-full-right-side"
     });
     modal.present();
-    modal.onDidDismiss().then(result =>{
+    modal.onDidDismiss().then(result=>{
       if(result && result.data){
-        onDismis(result.data);
+        onDismiss(result);
       }
     });
   }
 
-  onNewUser(newUser: any){
-    var onDismis = (data:any) =>{
-      console.log(data);
+  onNewUser(){
+    var onDismiss = (info:any)=>{
+      console.log(info);
+      switch(info.role){
+        case 'ok':{
+          this.users.addUser(info.data).subscribe(async user=>{
+              const options:ToastOptions = {
+              message:"User created",
+              duration:1000,
+              position:'bottom',
+              color:'tertiary',
+              cssClass:'card-ion-toast'
+            };
+            const toast = await this.toast.create(options);
+            toast.present();
+          })
+        }
+        break;
+        default:{
+          console.error("No debería entrar");
+        }
+      }
     }
-    this.presentForm(onDismis);
+    this.presentForm(null, onDismiss);
+  }
+  
+
+  showFavs(){
+    this.favsVer = !this.favsVer;
   }
 }
