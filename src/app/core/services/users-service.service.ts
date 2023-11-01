@@ -70,6 +70,12 @@ export class UsersServiceService {
   }
   */
 
+
+  public query(q:string):Observable<User[]>{
+    // Si coincide el tipo de datos que recibo con mi interfaz
+    return this.http.get<User[]>(environment.apiUrl+'/users?q='+q);
+  }
+
   public getAll():Observable<User[]>{
     // Si coincide el tipo de datos que recibo con mi interfaz
     return this.http.get<User[]>(environment.apiUrl+'/users').pipe(tap((users:any[])=>{
